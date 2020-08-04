@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-allopen'
+
+allOpen {
+    annotation 'com.weather.willy.willyweathersample.OpenForTesting'
+}
 
 android {
     compileSdkVersion 29
@@ -62,6 +67,19 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
+        exclude("META-INF/*.kotlin_module")
+    }
 
 }
 
@@ -97,6 +115,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_ktx_ext_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_ktx_ext_version"
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.8'
+    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.8'
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -129,7 +148,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$pull_to_refresh_version"
 
     // mockito
-    testImplementation "org.mockito:mockito-core:$mockito_version"
+    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexmaker_mockito_version"
 
     // mockk
     testImplementation "io.mockk:mockk:$mockk_version"

@@ -57,7 +57,7 @@ class CharacterRepositoryInstrumentedTest : AbstractRepositoryTest() {
     @Test
     fun characterListInsert() {
         mCharacterDao.deleteAllCharacters()
-        val characters = mutableListOf<CharacterResponse>(
+        val characters = mutableListOf(
             dummyCharacterResponse(1, 1, 11),
             dummyCharacterResponse(2, 2, 12),
             dummyCharacterResponse(3, 1, 121),

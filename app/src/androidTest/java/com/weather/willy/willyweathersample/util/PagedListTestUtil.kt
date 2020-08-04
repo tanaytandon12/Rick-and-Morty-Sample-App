@@ -8,10 +8,15 @@ import androidx.room.paging.LimitOffsetDataSource
 import io.mockk.every
 import io.mockk.mockk
 
-fun <T> createMockDataSourceFactory(itemList: List<T>): DataSource.Factory<Int, T> =
+fun <T> List<T>.asPagedList() = LivePagedListBuilder<Int, T>(
+    createMockDataSourceFactory2(this),
+    20
+).build()
+
+private fun <T> createMockDataSourceFactory2(itemList: List<T>): DataSource.Factory<Int, T> =
     object : DataSource.Factory<Int, T>() {
         override fun create(): DataSource<Int, T> =
-            MockLimitDataSource(
+            MockLimitDataSource2(
                 itemList
             )
     }
@@ -24,7 +29,7 @@ private val mockDb = mockk<RoomDatabase> {
     every { invalidationTracker } returns mockk(relaxUnitFun = true)
 }
 
-class MockLimitDataSource<T>(private val itemList: List<T>) :
+class MockLimitDataSource2<T>(private val itemList: List<T>) :
     LimitOffsetDataSource<T>(
         mockDb,
         mockQuery, false, null

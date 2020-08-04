@@ -27,6 +27,10 @@ object ServiceLocator {
     @Volatile
     private var mCharacterApi: CharacterApi? = null
 
+    @androidx.annotation.VisibleForTesting
+    var mFactory: ViewModelProvider.Factory? = null
+
+
     fun init(context: Context) {
         mDatabase = buildDatabase(context)
         mNetworkAPI = buildNetworkAPI()

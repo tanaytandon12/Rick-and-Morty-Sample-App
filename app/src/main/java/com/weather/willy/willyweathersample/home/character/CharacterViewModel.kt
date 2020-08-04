@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.weather.willy.willyweathersample.OpenForTesting
 import com.weather.willy.willyweathersample.data.EspressoIdlingResource
 import com.weather.willy.willyweathersample.data.ServiceLocator
 import com.weather.willy.willyweathersample.data.repository.CharacterRepository
@@ -12,6 +13,7 @@ import com.weather.willy.willyweathersample.model.CharacterListLoadingError
 import com.weather.willy.willyweathersample.model.local.Character
 import kotlinx.coroutines.*
 
+@OpenForTesting
 class CharacterViewModel(
     private val characterRepository: CharacterRepository,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
@@ -89,5 +91,5 @@ class CharacterViewModelFactory(private val mCharacterRepository: CharacterRepos
     }
 }
 
-fun Fragment.provideCharacterViewModelFactory(): CharacterViewModelFactory =
-    CharacterViewModelFactory(ServiceLocator.provideCharacterRepository())
+fun Fragment.provideCharacterViewModelFactory(): ViewModelProvider.Factory = ServiceLocator.mFactory
+    ?: CharacterViewModelFactory(ServiceLocator.provideCharacterRepository())

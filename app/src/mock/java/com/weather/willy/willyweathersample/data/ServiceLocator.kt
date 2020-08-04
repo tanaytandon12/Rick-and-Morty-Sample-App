@@ -1,6 +1,7 @@
 package com.weather.willy.willyweathersample.data
 
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider
 import com.weather.willy.willyweathersample.RickAndMortyApp
 import com.weather.willy.willyweathersample.data.local.Database
 import com.weather.willy.willyweathersample.data.network.CharacterApi
@@ -18,6 +19,8 @@ object ServiceLocator {
 
     @Volatile
     private var mCharacterApi: CharacterApi? = null
+
+    var mFactory: ViewModelProvider.Factory? = null
 
     private val mNetworkInterceptor = NetworkInterceptor()
 
@@ -75,5 +78,6 @@ object ServiceLocator {
     fun <T> setData(data: T) {
         mNetworkInterceptor.setData(data)
     }
+
 
 }
