@@ -8,4 +8,11 @@ data class CharacterResponse(
 
 data class OriginResponse(val name: String, val url: String)
 
-data class CharacterResponseWrapper(val results: List<CharacterResponse>)
+data class CharacterResponseWrapper(
+    val results: List<CharacterResponse>,
+    val info: CharacterPagingInfo? = null
+)
+
+data class CharacterPagingInfo(var next: String? = null)
+
+fun CharacterPagingInfo.isLast() = (next == null || next?.isEmpty() == true)

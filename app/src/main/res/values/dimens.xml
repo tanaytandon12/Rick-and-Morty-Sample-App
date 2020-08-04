@@ -1,3 +1,10 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="nameMarginTop">8dp</dimen>
+    <dimen name="nameMarginStart">8dp</dimen>
+    <dimen name="nameTextSize">16sp</dimen>
+
+
+
 </resources>

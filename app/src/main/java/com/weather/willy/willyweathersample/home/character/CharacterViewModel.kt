@@ -60,13 +60,13 @@ class CharacterViewModel(
     }
 
     fun fetchCharacters() {
-        mJob?.cancel()
-        mJob = viewModelScope.launch(defaultDispatcher + mExceptionHandler)
-        {
-            showProgress(true)
-            characterRepository.fetchCharacterList()
-            showProgress(false)
-        }
+            mJob?.cancel()
+            mJob = viewModelScope.launch(defaultDispatcher + mExceptionHandler)
+            {
+                showProgress(true)
+                characterRepository.fetchCharacterList()
+                showProgress(false)
+            }
     }
 
     fun onCharacterSelected(character: Character) {

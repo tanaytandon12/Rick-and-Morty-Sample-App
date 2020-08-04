@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.weather.willy.willyweathersample.R
 import kotlinx.android.synthetic.main.fragment_characters.*
 
@@ -18,6 +19,8 @@ import kotlinx.android.synthetic.main.fragment_characters.*
 class CharactersFragment : Fragment() {
 
     private val characterViewModel by activityViewModels<CharacterViewModel> { provideCharacterViewModelFactory() }
+
+    private lateinit var mCharacterAdapter: CharacterAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,12 +32,21 @@ class CharactersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mCharacterAdapter = CharacterAdapter(requireContext())
+        rvCharacters.adapter = mCharacterAdapter
+        rvCharacters.layoutManager = LinearLayoutManager(requireContext()).apply {
+            orientation = LinearLayoutManager.VERTICAL
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         characterViewModel.showProgress().observe(viewLifecycleOwner, Observer {
             pbCharacterList.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
+        characterViewModel.pagedCharacterListLiveData.observe(viewLifecycleOwner, Observer {
+            mCharacterAdapter.submitList(it)
         })
     }
 }

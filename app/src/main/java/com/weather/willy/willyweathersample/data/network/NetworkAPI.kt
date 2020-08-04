@@ -9,9 +9,9 @@ import retrofit2.http.Query
 
 interface NetworkAPI {
 
-    @GET("/character/")
+    @GET("character/")
     suspend fun characters(@Query("page") pageCount: Int): CharacterResponseWrapper
 
-    @GET("/episode/{episode_id}")
+    @GET("episode/{episode_id}")
     suspend fun episode(@Path("episode_id") episodeId: Int): EpisodeResponse
 }

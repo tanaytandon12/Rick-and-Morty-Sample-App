@@ -22,7 +22,7 @@ class CharacterApiTest : AbstractNetworkAPITest() {
     @Test
     fun characterListApi() {
         setGenerateError(true)
-        var networkResponse: NetworkResponse<List<CharacterResponse>>? = null
+        var networkResponse: NetworkResponse<Pair<List<CharacterResponse>, Boolean>>? = null
         runBlocking {
             networkResponse = mCharacterApi.fetchCharacterList(1)
         }
@@ -40,6 +40,7 @@ class CharacterApiTest : AbstractNetworkAPITest() {
         }
         assertNotNull(networkResponse)
         assertTrue(networkResponse is NetworkResponse.Success)
-        assertEquals((networkResponse as NetworkResponse.Success).data.size, characters.size)
+        assertEquals((networkResponse as NetworkResponse.Success).data.first.size, characters.size)
+        assertTrue((networkResponse as NetworkResponse.Success).data.second)
     }
 }

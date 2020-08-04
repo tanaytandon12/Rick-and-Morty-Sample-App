@@ -26,20 +26,24 @@ class CharacterRepositoryImpl constructor(
     private val characterDao: CharacterDao
 ) : CharacterRepository {
 
+    private var mLimitNotReached = true
 
     override suspend fun fetchCharacterList() {
-        wrapEspressoIdlingResource {
+        if (mLimitNotReached) {
+            wrapEspressoIdlingResource {
 
-            val count = characterDao.fetchCharacterCount()
-            val response = characterApi.fetchCharacterList(count / 20 + 1)
-            if (response is NetworkResponse.Success) {
-                val list = mutableListOf<Character>()
-                response.data.mapTo(list) {
-                    Character(it)
+                val count = characterDao.fetchCharacterCount()
+                val response = characterApi.fetchCharacterList(count / 20 + 1)
+                if (response is NetworkResponse.Success) {
+                    val list = mutableListOf<Character>()
+                    response.data.first.mapTo(list) {
+                        Character(it)
+                    }
+                    characterDao.saveCharacterList(list)
+                    mLimitNotReached = !response.data.second
+                } else {
+                    throw CharacterListLoadingError()
                 }
-                characterDao.saveCharacterList(list)
-            } else {
-                throw CharacterListLoadingError()
             }
         }
     }

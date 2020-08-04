@@ -26,7 +26,7 @@ android {
 
         debug {
             applicationIdSuffix ".debug"
-            buildConfigField('String', 'SERVER_URL', "\"https://rickandmortyapi.com/api\"")
+            buildConfigField('String', 'SERVER_URL', "\"https://rickandmortyapi.com/api/\"")
             buildConfigField('String', 'DATABASE_NAME', "\"RickAndMorty\"")
             buildConfigField('int', 'DATABASE_VERSION', "1")
         }

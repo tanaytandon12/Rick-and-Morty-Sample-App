@@ -1,6 +1,7 @@
 package com.weather.willy.willyweathersample.data
 
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.weather.willy.willyweathersample.BuildConfig
 import com.weather.willy.willyweathersample.RickAndMortyApp
@@ -45,12 +46,13 @@ object ServiceLocator {
     }
 
     private fun buildNetworkAPI(): NetworkAPI {
-        val networkAPI = Retrofit.Builder().client(OkHttpClient.Builder().apply {
-            addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-        }.build()).addConverterFactory(GsonConverterFactory.create()).build()
-            .create(NetworkAPI::class.java)
+        val networkAPI =
+            Retrofit.Builder().baseUrl(BuildConfig.SERVER_URL).client(OkHttpClient.Builder().apply {
+                addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
+            }.build()).addConverterFactory(GsonConverterFactory.create()).build()
+                .create(NetworkAPI::class.java)
         mNetworkAPI = networkAPI
         return networkAPI
     }
