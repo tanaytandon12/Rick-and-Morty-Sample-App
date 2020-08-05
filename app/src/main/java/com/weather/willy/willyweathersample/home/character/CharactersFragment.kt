@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.weather.willy.willyweathersample.R
+import com.weather.willy.willyweathersample.data.wrapEspressoIdlingResource
 import kotlinx.android.synthetic.main.fragment_characters.*
 
 /**
@@ -46,7 +47,9 @@ class CharactersFragment : Fragment() {
         })
 
         characterViewModel.pagedCharacterListLiveData.observe(viewLifecycleOwner, Observer {
-            mCharacterAdapter.submitList(it)
+            wrapEspressoIdlingResource {
+                mCharacterAdapter.submitList(it)
+            }
         })
     }
 }

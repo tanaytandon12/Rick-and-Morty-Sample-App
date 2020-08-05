@@ -5,6 +5,9 @@
     <dimen name="nameMarginStart">8dp</dimen>
     <dimen name="nameTextSize">16sp</dimen>
 
-
+    <dimen name="characterImgHeight">192dp</dimen>
+    <dimen name="characterImgWidth">192dp</dimen>
+    <dimen name="characterImgMarginTop">16dp</dimen>
+    <dimen name="characterImgMarginStart">16dp</dimen>
 
 </resources>

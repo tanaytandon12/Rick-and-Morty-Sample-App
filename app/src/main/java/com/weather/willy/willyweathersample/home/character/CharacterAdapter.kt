@@ -4,10 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.weather.willy.willyweathersample.R
 import com.weather.willy.willyweathersample.model.local.Character
 import kotlinx.android.synthetic.main.item_character.view.*
@@ -40,10 +42,14 @@ class CharacterAdapter(private val context: Context) :
 
     class CharacterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        private val tvName: TextView = itemView.tvTitle
+        private val tvName: TextView = itemView.tvName
+        private val ivCharacter: ImageView = itemView.ivCharacter
 
         fun bind(position: Int, character: Character?) {
             tvName.text = character?.name
+            character?.image?.let {
+                Glide.with(ivCharacter).load(it).into(ivCharacter)
+            }
         }
     }
 }

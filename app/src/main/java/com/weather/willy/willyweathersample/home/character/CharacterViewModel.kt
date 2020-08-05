@@ -45,7 +45,10 @@ class CharacterViewModel(
     }
 
     val pagedCharacterListLiveData: LiveData<PagedList<Character>> by lazy {
-        LivePagedListBuilder(characterRepository.paginatedCharacterListDataSource(), 20)
+        LivePagedListBuilder(
+            characterRepository.paginatedCharacterListDataSource(),
+            PagedList.Config.Builder().setPageSize(20).setEnablePlaceholders(false).build()
+        )
             .setBoundaryCallback(object : PagedList.BoundaryCallback<Character>() {
 
                 override fun onItemAtEndLoaded(itemAtEnd: Character) {
@@ -60,13 +63,13 @@ class CharacterViewModel(
     }
 
     fun fetchCharacters() {
-            mJob?.cancel()
-            mJob = viewModelScope.launch(defaultDispatcher + mExceptionHandler)
-            {
-                showProgress(true)
-                characterRepository.fetchCharacterList()
-                showProgress(false)
-            }
+        mJob?.cancel()
+        mJob = viewModelScope.launch(defaultDispatcher + mExceptionHandler)
+        {
+            showProgress(true)
+            characterRepository.fetchCharacterList()
+            showProgress(false)
+        }
     }
 
     fun onCharacterSelected(character: Character) {

@@ -1,30 +1,26 @@
 package com.weather.willy.willyweathersample.home
 
-import android.view.View
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.weather.willy.willyweathersample.R
 import com.weather.willy.willyweathersample.data.ServiceLocator
 import com.weather.willy.willyweathersample.data.dummyCharacter
+import com.weather.willy.willyweathersample.home.character.CharacterAdapter
 import com.weather.willy.willyweathersample.home.character.CharacterViewModel
 import com.weather.willy.willyweathersample.home.character.CharactersFragment
 import com.weather.willy.willyweathersample.model.local.Character
 import com.weather.willy.willyweathersample.util.*
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.mockkClass
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.hamcrest.Matchers
+import org.hamcrest.Matchers.greaterThan
+import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
@@ -47,9 +43,17 @@ class CharacterFragmentInstrumentedTest {
             mCharacters.add(dummyCharacter(index))
         }
         mCharacterViewModel = mock(CharacterViewModel::class.java)
-        `when`(mCharacterViewModel.pagedCharacterListLiveData).then { mCharacters.asPagedList() }
+        val pagedList = mCharacters.asPagedList(pageSize)
+        `when`(mCharacterViewModel.pagedCharacterListLiveData).then {
+            pagedList
+        }
         `when`(mCharacterViewModel.showProgress()).then { mShowProgressLiveData }
         ServiceLocator.mFactory = ViewModelUtil.createFor(mCharacterViewModel)
+    }
+
+    @After
+    fun teardown(){
+        ServiceLocator.mFactory = null
     }
 
 
@@ -68,6 +72,43 @@ class CharacterFragmentInstrumentedTest {
         mShowProgressLiveData.postValue(true)
         onView(withId(R.id.pbCharacterList)).isVisible()
     }
+
+    @Test
+    fun recyclerviewSize() {
+        launchFragment()
+        onView(withId(R.id.rvCharacters)).isVisible()
+
+
+        onView(withId(R.id.rvCharacters)).perform(waitUnit(hasItemCount(greaterThan(0))))
+
+        onView(RecyclerViewItemMatcher(R.id.rvCharacters).atPosition(0, R.id.tvName)).check(
+            matches(
+                withText(mCharacters[0].name)
+            )
+        )
+        onView(withId(R.id.rvCharacters)).perform(
+            RecyclerViewActions.scrollToPosition<CharacterAdapter.CharacterViewHolder>(
+                5
+            )
+        )
+        onView(RecyclerViewItemMatcher(R.id.rvCharacters).atPosition(5, R.id.tvName)).check(
+            matches(
+                withText(mCharacters[5].name)
+            )
+        )
+
+        onView(withId(R.id.rvCharacters)).perform(
+            RecyclerViewActions.scrollToPosition<CharacterAdapter.CharacterViewHolder>(
+                10
+            )
+        )
+        onView(RecyclerViewItemMatcher(R.id.rvCharacters).atPosition(10, R.id.tvName)).check(
+            matches(
+                withText(mCharacters[10].name)
+            )
+        )
+    }
+
 
     private fun launchFragment() {
         launchFragmentInContainer<CharactersFragment>()

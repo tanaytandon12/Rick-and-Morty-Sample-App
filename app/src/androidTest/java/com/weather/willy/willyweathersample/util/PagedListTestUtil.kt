@@ -8,9 +8,9 @@ import androidx.room.paging.LimitOffsetDataSource
 import io.mockk.every
 import io.mockk.mockk
 
-fun <T> List<T>.asPagedList() = LivePagedListBuilder<Int, T>(
+fun <T> List<T>.asPagedList(pageSize: Int = 20) = LivePagedListBuilder<Int, T>(
     createMockDataSourceFactory2(this),
-    20
+    PagedList.Config.Builder().setEnablePlaceholders(false).setPageSize(pageSize).build()
 ).build()
 
 private fun <T> createMockDataSourceFactory2(itemList: List<T>): DataSource.Factory<Int, T> =
