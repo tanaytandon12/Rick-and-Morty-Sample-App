@@ -21,6 +21,12 @@
     <dimen name="characterImgMarginTop">16dp</dimen>
     <dimen name="characterImgMarginStart">8dp</dimen>
 
+    <dimen name="characterDetailsImgHeight">256dp</dimen>
+    <dimen name="characterDetailsNameMarginStart">16dp</dimen>
+    <dimen name="characterDetailsNameMarginEnd">16dp</dimen>
+    <dimen name="characterEpisodeListMarginStart">8dp</dimen>
+    <dimen name="characterEpisodeListMarginEnd">8dp</dimen>
+
     <dimen name="itemSpacingLarge">8dp</dimen>
     <dimen name="itemSpacingSmall">2dp</dimen>
     <dimen name="itemSpacingMedium">4dp</dimen>

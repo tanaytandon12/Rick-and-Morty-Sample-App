@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvUrl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="https://ww.google.com"
+        android:layout_margin="@dimen/itemSpacingSmall"
+        android:layout_marginTop="@dimen/itemSpacingSmall"
+        android:layout_marginBottom="@dimen/itemSpacingSmall"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/episodeUrlTextSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

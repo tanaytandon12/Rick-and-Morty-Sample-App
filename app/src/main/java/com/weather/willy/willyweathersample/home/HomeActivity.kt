@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import com.weather.willy.willyweathersample.R
 import com.weather.willy.willyweathersample.home.character.CharacterViewModel
 import com.weather.willy.willyweathersample.home.character.provideCharacterViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 
 class HomeActivity : AppCompatActivity() {
 

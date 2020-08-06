@@ -6,6 +6,109 @@
     android:layout_height="wrap_content"
     tools:context=".home.character.CharacterDetailsFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/ivCharacter"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/characterDetailsImgHeight"
+            android:contentDescription="@string/character_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/characterDetailsNameMarginStart"
+            android:layout_marginTop="@dimen/itemSpacingLarge"
+            android:layout_marginEnd="@dimen/characterDetailsNameMarginEnd"
+            android:textSize="@dimen/nameTextSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivCharacter" />
+
+        <TextView
+            android:id="@+id/tvEpisodeCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/itemSpacingSmall"
+            android:textSize="@dimen/episodeCountTextSize"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+        <TextView
+            android:id="@+id/tvGender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/itemSpacingMedium"
+            android:textSize="@dimen/genderTextSize"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvEpisodeCount" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/itemSpacingSmall"
+            android:textSize="@dimen/statusTextSize"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvGender" />
+
+        <TextView
+            android:id="@+id/tvType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/itemSpacingSmall"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvStatus" />
+
+        <TextView
+            android:id="@+id/tvOrigin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/itemSpacingMedium"
+            android:textSize="@dimen/originTextSize"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvType" />
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/itemSpacingSmall"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvOrigin" />
+
+        <TextView
+            android:id="@+id/tvEpisodeLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/itemSpacingMedium"
+            android:text="@string/episodes"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvLocation" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUrls"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/characterEpisodeListMarginStart"
+            android:layout_marginEnd="@dimen/characterEpisodeListMarginEnd"
+            app:layout_constraintEnd_toEndOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvEpisodeLabel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -73,13 +73,21 @@ class CharacterAdapter(
 
         fun bind(position: Int, character: Character?) {
             itemView.tag = position
-            tvName.text = character?.name
+
             character?.image?.let {
                 Glide.with(ivCharacter).load(it).into(ivCharacter)
             }
 
             tvEpisodeCount.text =
                 itemView.context.resources.getString(R.string.episodeCount, character?.episodeCount)
+
+            showPlaceholderIfTextIsEmpty(
+                itemView.context,
+                tvName,
+                R.string.name,
+                character?.name,
+                R.string.na
+            )
 
             showPlaceholderIfTextIsEmpty(
                 itemView.context,

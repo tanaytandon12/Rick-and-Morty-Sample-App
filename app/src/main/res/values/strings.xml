@@ -11,6 +11,8 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <string name="na">na</string>
+    <string name="name">Name : %s</string>
+    <string name="episodes">Episodes:</string>
     <string name="episodeCount">Episode Count: %d</string>
     <string name="character_image">Character Image</string>
     <string name="gender">Gender: %s</string>
