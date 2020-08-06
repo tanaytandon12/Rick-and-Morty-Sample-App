@@ -2,6 +2,7 @@ package com.weather.willy.willyweathersample.data.local
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.weather.willy.willyweathersample.data.dummyEpisode
+import com.weather.willy.willyweathersample.model.local.Episode
 import com.weather.willy.willyweathersample.util.getValueForTest
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -17,6 +18,9 @@ class EpisodeDaoInstrumentedTest : AbstractDaoInstrumentedTest() {
         mEpisodeDao = database.episodeDao()
     }
 
+    override fun setTransactionExecutor(): Boolean = false
+
+
     @Test
     fun episodeInsert() {
         val episodeId = 1
@@ -25,8 +29,22 @@ class EpisodeDaoInstrumentedTest : AbstractDaoInstrumentedTest() {
             mEpisodeDao.insertEpisode(episode)
         }
         val liveDataValue = mEpisodeDao.fetchEpisode(episodeId)
-        assertEquals(liveDataValue.getValueForTest().id, episodeId)
+        assertEquals(liveDataValue.getValueForTest().episodeId, episodeId)
     }
 
+    @Test
+    fun episodesInsert() {
+        val episodes = mutableListOf<Episode>()
+        val startIndex = 1
+        val endIndex = 100
+        for (index in startIndex..endIndex) {
+            episodes.add(dummyEpisode(index))
+        }
+        runBlocking {
+            mEpisodeDao.insertEpisodes(episodes)
+        }
+        val fetchList = mEpisodeDao.fetchEpisodes()
+        assertEquals(fetchList.size, episodes.size)
+    }
 
 }

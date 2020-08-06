@@ -17,4 +17,6 @@ abstract class Database() : RoomDatabase() {
     abstract fun characterDao(): CharacterDao
 
     abstract fun episodeDao(): EpisodeDao
+
+    abstract fun characterWithEpisodeDao(): CharacterWithEpisodeDao
 }

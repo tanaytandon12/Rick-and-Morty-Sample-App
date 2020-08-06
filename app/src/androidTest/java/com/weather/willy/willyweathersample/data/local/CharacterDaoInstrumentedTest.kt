@@ -21,6 +21,8 @@ class CharacterDaoInstrumentedTest : AbstractDaoInstrumentedTest() {
         characterDao = database.characterDao()
     }
 
+    override fun setTransactionExecutor(): Boolean = false
+
     @Test
     fun characterDaoMultipleInsert() {
         val startIndex = 1
@@ -50,6 +52,6 @@ class CharacterDaoInstrumentedTest : AbstractDaoInstrumentedTest() {
             characterDao.saveCharacterList(listOf(character))
         }
         val characterValue = characterDao.fetchCharacter(characterId).getValueForTest()
-        assertEquals(characterValue.id, characterId)
+        assertEquals(characterValue.characterId, characterId)
     }
 }

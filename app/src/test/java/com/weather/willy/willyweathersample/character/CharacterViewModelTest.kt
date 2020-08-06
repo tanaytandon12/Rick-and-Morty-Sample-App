@@ -58,16 +58,28 @@ class CharacterViewModelTest : AbstractViewModelTest() {
             val dummyCharacter = dummyCharacter(characterId)
             mCharacterViewModel.onCharacterSelected(character = dummyCharacter)
             assertEquals(
-                mCharacterViewModel.selectedCharacterLiveData().getValueForTesting().id,
+                mCharacterViewModel.selectedCharacterLiveData()
+                    .getValueForTesting().character.characterId,
                 characterId
             )
+            assertTrue(mCharacterViewModel.navigateOnCharacterSelected().getValueForTesting())
         }
     }
 
     @Test
+    @ExperimentalCoroutinesApi
     fun paginatedData() {
-        assertNotNull(mCharacterViewModel.pagedCharacterListLiveData)
+        mRule2.runBlockingTest {
+            assertNotNull(mCharacterViewModel.pagedCharacterListLiveData)
+        }
     }
 
-
+    @Test
+    @ExperimentalCoroutinesApi
+    fun resetNavigationOnCharacterSelected() {
+        mRule2.runBlockingTest {
+            mCharacterViewModel.resetNavigateOnCharacterSelected()
+            assertFalse(mCharacterViewModel.navigateOnCharacterSelected().getValueForTesting())
+        }
+    }
 }

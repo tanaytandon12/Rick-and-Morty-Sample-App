@@ -68,7 +68,10 @@ object ServiceLocator {
     }
 
     private fun buildCharacterRepository(): CharacterRepository {
-        val instance = CharacterRepositoryImpl(getCharacterApi(), getDatabase().characterDao())
+        val instance = CharacterRepositoryImpl(
+            getCharacterApi(), getDatabase().characterDao(),
+            getDatabase().characterWithEpisodeDao()
+        )
         mCharacterRepository = instance
         return instance
     }

@@ -15,6 +15,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.Executors
 
 fun Any.networkAPIForTest(networkInterceptor: NetworkInterceptor): NetworkAPI =
     Retrofit.Builder().baseUrl("https://localhost.com")
@@ -47,7 +48,7 @@ fun Any.dummyCharacterResponse(
         )
     val episodes = mutableListOf<String>()
     for (index in episodeStartIndex..episodeEndIndex) {
-        episodes.add("Episode$index Season${index / 10 + 1}")
+        episodes.add("https://randomurl.com/$index")
     }
     return CharacterResponse(
         id = id, name = "name$id", status = "status$id", episode = episodes,
@@ -56,15 +57,19 @@ fun Any.dummyCharacterResponse(
     )
 }
 
-fun Any.inMemoryDatabase(context: Context) =
+fun Any.inMemoryDatabase(context: Context, setTransactionExecutor: Boolean = false) =
     Room.inMemoryDatabaseBuilder(
         context,
         Database::class.java
-    ).build()
+    ).apply {
+        if (setTransactionExecutor)
+            setTransactionExecutor(Executors.newSingleThreadExecutor())
+    }
+        .build()
 
 fun Any.dummyCharacter(id: Int) =
     Character(
-        id = id,
+        characterId = id,
         name = "name_$id",
         status = "status_$id",
         type = "type_$id",
@@ -77,7 +82,7 @@ fun Any.dummyCharacter(id: Int) =
 
 fun Any.dummyEpisode(id: Int) =
     Episode(
-        id = id, episode = "episode_$id", createdAt = "created_$id",
+        episodeId = id, episode = "episode_$id", createdAt = "created_$id",
         airDate = "airDate_$id"
     )
 

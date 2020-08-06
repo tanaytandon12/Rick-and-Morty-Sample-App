@@ -27,7 +27,8 @@ abstract class AbstractRepositoryTest {
 
     @Before
     fun setup() {
-        mDatabase = inMemoryDatabase(ApplicationProvider.getApplicationContext())
+        mDatabase =
+            inMemoryDatabase(ApplicationProvider.getApplicationContext(), setTransactionExecutor())
         mNetworkAPI = networkAPIForTest(networkInterceptor)
         setup(mDatabase, mNetworkAPI)
     }
@@ -44,6 +45,8 @@ abstract class AbstractRepositoryTest {
     fun <T> setResult(data: T) {
         networkInterceptor.setData(data)
     }
+
+    abstract fun setTransactionExecutor(): Boolean
 
     abstract fun setup(database: Database, networkAPI: NetworkAPI)
 }

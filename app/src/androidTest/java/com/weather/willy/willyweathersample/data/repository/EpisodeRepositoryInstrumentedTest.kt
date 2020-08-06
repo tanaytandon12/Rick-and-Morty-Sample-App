@@ -26,6 +26,8 @@ class EpisodeRepositoryInstrumentedTest : AbstractRepositoryTest() {
         mEpisodeRepository = EpisodeRepositoryImpl(mEpisodeDao, EpisodeApiIml(networkAPI))
     }
 
+    override fun setTransactionExecutor(): Boolean = false
+
     @Test
     fun fetchAndInsertException() {
         exceptionRule.expect(EpisodeLoadingError::class.java)
@@ -44,6 +46,6 @@ class EpisodeRepositoryInstrumentedTest : AbstractRepositoryTest() {
         runBlocking {
             mEpisodeRepository.fetchAndSaveEpisode(episodeId)
         }
-        assertEquals(mEpisodeRepository.episode(episodeId).getValueForTest().id, episodeId)
+        assertEquals(mEpisodeRepository.episode(episodeId).getValueForTest().episodeId, episodeId)
     }
 }

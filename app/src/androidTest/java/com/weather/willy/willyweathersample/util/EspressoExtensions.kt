@@ -17,13 +17,13 @@ import org.hamcrest.StringDescription
 import org.hamcrest.TypeSafeMatcher
 import org.junit.Assert.*
 
-fun ViewInteraction.isVisible() =
+fun ViewInteraction.visibilityIsVisible() =
     this.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 
-fun ViewInteraction.isGone() =
+fun ViewInteraction.visibilityIsGone() =
     this.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
 
-fun ViewInteraction.isInvisible() =
+fun ViewInteraction.visibilityIsInvisible() =
     this.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)))
 
 /**

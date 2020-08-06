@@ -8,9 +8,10 @@ import com.weather.willy.willyweathersample.data.dummyCharacter
 import com.weather.willy.willyweathersample.data.network.CharacterApiImpl
 import com.weather.willy.willyweathersample.data.network.NetworkAPI
 import com.weather.willy.willyweathersample.model.local.Character
-import com.weather.willy.willyweathersample.model.network.CharacterResponse
 import com.weather.willy.willyweathersample.model.network.CharacterResponseWrapper
 import com.weather.willy.willyweathersample.data.dummyCharacterResponse
+import com.weather.willy.willyweathersample.data.local.CharacterWithEpisodeDao
+import com.weather.willy.willyweathersample.data.local.EpisodeDao
 import com.weather.willy.willyweathersample.model.CharacterListLoadingError
 import com.weather.willy.willyweathersample.util.getValueForTest
 import kotlinx.coroutines.runBlocking
@@ -26,11 +27,18 @@ class CharacterRepositoryInstrumentedTest : AbstractRepositoryTest() {
     private lateinit var mCharacterRepository: CharacterRepository
 
     private lateinit var mCharacterDao: CharacterDao
+    private lateinit var mEpisodeDao: EpisodeDao
+    private lateinit var mCharacterWithEpisodeDao: CharacterWithEpisodeDao
+
+    override fun setTransactionExecutor(): Boolean = true
 
     override fun setup(database: Database, networkAPI: NetworkAPI) {
         mCharacterDao = database.characterDao()
+        mEpisodeDao = database.episodeDao()
+        mCharacterWithEpisodeDao = database.characterWithEpisodeDao()
         mCharacterRepository = CharacterRepositoryImpl(
-            CharacterApiImpl(networkAPI), mCharacterDao
+            CharacterApiImpl(networkAPI), mCharacterDao,
+            mCharacterWithEpisodeDao
         )
     }
 
@@ -70,6 +78,10 @@ class CharacterRepositoryInstrumentedTest : AbstractRepositoryTest() {
             mCharacterRepository.fetchCharacterList()
         }
         assertEquals(mCharacterDao.fetchCharacterList().getValueForTest().size, characters.size)
+        assertEquals(mEpisodeDao.fetchEpisodes().size, 121)
+        val characterWithEpisode =
+            mCharacterWithEpisodeDao.characterWithEpisodes(3).getValueForTest()
+        assertEquals(characterWithEpisode.episodes.size, 121)
     }
 
     @Test
@@ -90,6 +102,6 @@ class CharacterRepositoryInstrumentedTest : AbstractRepositoryTest() {
             mCharacterDao.saveCharacterList(listOf(dummy))
         }
         val value = mCharacterRepository.fetchCharacterById(characterId).getValueForTest()
-        assertEquals(value.id, characterId)
+        assertEquals(value.character.characterId, characterId)
     }
 }

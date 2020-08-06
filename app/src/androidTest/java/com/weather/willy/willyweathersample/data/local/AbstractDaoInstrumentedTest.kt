@@ -16,7 +16,8 @@ abstract class AbstractDaoInstrumentedTest {
 
     @Before
     fun setup() {
-        mDatabase = inMemoryDatabase(ApplicationProvider.getApplicationContext())
+        mDatabase =
+            inMemoryDatabase(ApplicationProvider.getApplicationContext(), setTransactionExecutor())
         setup(mDatabase)
     }
 
@@ -24,6 +25,8 @@ abstract class AbstractDaoInstrumentedTest {
     fun tearDown() {
         mDatabase.close()
     }
+
+    abstract fun setTransactionExecutor(): Boolean
 
     abstract fun setup(database: Database)
 }

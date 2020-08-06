@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/characterListFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/characterListFragment"
         android:name="com.weather.willy.willyweathersample.home.character.CharactersFragment"
-        android:label="@string/first_fragment_label"
+        android:label="@string/character_list_label"
         tools:layout="@layout/fragment_characters">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_characterFragment_to_characterDetails"
+            app:destination="@id/characterDetails" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/characterDetails"
         android:name="com.weather.willy.willyweathersample.home.character.CharacterDetailsFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/character_details_label"
         tools:layout="@layout/fragment_character_details">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/characterListFragment" />
     </fragment>
 </navigation>

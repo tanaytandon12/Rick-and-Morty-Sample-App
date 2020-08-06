@@ -2,10 +2,14 @@ package com.weather.willy.willyweathersample.home
 
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.weather.willy.willyweathersample.R
 import com.weather.willy.willyweathersample.data.ServiceLocator
@@ -15,7 +19,6 @@ import com.weather.willy.willyweathersample.home.character.CharacterViewModel
 import com.weather.willy.willyweathersample.home.character.CharactersFragment
 import com.weather.willy.willyweathersample.model.local.Character
 import com.weather.willy.willyweathersample.util.*
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.greaterThan
 import org.junit.After
 import org.junit.Before
@@ -36,6 +39,8 @@ class CharacterFragmentInstrumentedTest {
     private val pageSize = 20
 
     private val mShowProgressLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+    private var mNavigateLiveData: MutableLiveData<Boolean> =
+        MutableLiveData<Boolean>(false)
 
     @Before
     fun setup() {
@@ -47,12 +52,13 @@ class CharacterFragmentInstrumentedTest {
         `when`(mCharacterViewModel.pagedCharacterListLiveData).then {
             pagedList
         }
+        `when`(mCharacterViewModel.navigateOnCharacterSelected()).then { mNavigateLiveData }
         `when`(mCharacterViewModel.showProgress()).then { mShowProgressLiveData }
         ServiceLocator.mFactory = ViewModelUtil.createFor(mCharacterViewModel)
     }
 
     @After
-    fun teardown(){
+    fun teardown() {
         ServiceLocator.mFactory = null
     }
 
@@ -60,23 +66,23 @@ class CharacterFragmentInstrumentedTest {
     @Test
     fun characterListFragmentView() {
         launchFragment()
-        onView(withId(R.id.rvCharacters)).isVisible()
-        onView(withId(R.id.pbCharacterList)).isGone()
+        onView(withId(R.id.rvCharacters)).visibilityIsVisible()
+        onView(withId(R.id.pbCharacterList)).visibilityIsGone()
     }
 
     @Test
     fun progressBarVisibilityToggle() {
         launchFragment()
         mShowProgressLiveData.postValue(false)
-        onView(withId(R.id.pbCharacterList)).isGone()
+        onView(withId(R.id.pbCharacterList)).visibilityIsGone()
         mShowProgressLiveData.postValue(true)
-        onView(withId(R.id.pbCharacterList)).isVisible()
+        onView(withId(R.id.pbCharacterList)).visibilityIsVisible()
     }
 
     @Test
     fun recyclerviewSize() {
         launchFragment()
-        onView(withId(R.id.rvCharacters)).isVisible()
+        onView(withId(R.id.rvCharacters)).visibilityIsVisible()
 
 
         onView(withId(R.id.rvCharacters)).perform(waitUnit(hasItemCount(greaterThan(0))))
@@ -108,7 +114,6 @@ class CharacterFragmentInstrumentedTest {
             )
         )
     }
-
 
     private fun launchFragment() {
         launchFragmentInContainer<CharactersFragment>()

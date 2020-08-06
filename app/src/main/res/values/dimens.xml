@@ -1,13 +1,28 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="characterItemPadding">8dp</dimen>
 
     <dimen name="nameMarginTop">8dp</dimen>
     <dimen name="nameMarginStart">8dp</dimen>
+    <dimen name="nameContainerMarginEnd">8dp</dimen>
+
     <dimen name="nameTextSize">16sp</dimen>
+    <dimen name="episodeCountTextSize">14sp</dimen>
+    <dimen name="statusTextSize">12sp</dimen>
+    <dimen name="genderTextSize">12sp</dimen>
+    <dimen name="typeTextSize">12sp</dimen>
+    <dimen name="originTextSize">14sp</dimen>
+    <dimen name="locationTextSize">14sp</dimen>
+    <dimen name="episodeUrlTextSize">14sp</dimen>
+
 
     <dimen name="characterImgHeight">192dp</dimen>
     <dimen name="characterImgWidth">192dp</dimen>
     <dimen name="characterImgMarginTop">16dp</dimen>
-    <dimen name="characterImgMarginStart">16dp</dimen>
+    <dimen name="characterImgMarginStart">8dp</dimen>
+
+    <dimen name="itemSpacingLarge">8dp</dimen>
+    <dimen name="itemSpacingSmall">2dp</dimen>
+    <dimen name="itemSpacingMedium">4dp</dimen>
 
 </resources>

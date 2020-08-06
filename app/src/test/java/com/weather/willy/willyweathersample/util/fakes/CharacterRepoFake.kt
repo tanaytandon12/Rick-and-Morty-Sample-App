@@ -7,6 +7,7 @@ import com.weather.willy.willyweathersample.data.dummyCharacter
 import com.weather.willy.willyweathersample.data.repository.CharacterRepository
 import com.weather.willy.willyweathersample.model.CharacterListLoadingError
 import com.weather.willy.willyweathersample.model.local.Character
+import com.weather.willy.willyweathersample.model.local.CharacterWithEpisode
 import com.weather.willy.willyweathersample.util.createMockDataSourceFactory
 
 class CharacterRepoFake() : CharacterRepository {
@@ -29,8 +30,13 @@ class CharacterRepoFake() : CharacterRepository {
     override fun paginatedCharacterListDataSource(): DataSource.Factory<Int, Character> =
         createMockDataSourceFactory(list)
 
-    override fun fetchCharacterById(characterId: Int): LiveData<Character> =
-        MutableLiveData(dummyCharacter(id = characterId))
+    override fun fetchCharacterById(characterId: Int): LiveData<CharacterWithEpisode> =
+        MutableLiveData(
+            CharacterWithEpisode(
+                character = dummyCharacter(characterId),
+                episodes = listOf()
+            )
+        )
 
     override fun characterList(): LiveData<List<Character>> = MutableLiveData(list)
 

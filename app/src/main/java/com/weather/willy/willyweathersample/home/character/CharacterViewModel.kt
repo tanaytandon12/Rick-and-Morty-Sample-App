@@ -1,16 +1,16 @@
 package com.weather.willy.willyweathersample.home.character
 
+import android.app.Activity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.weather.willy.willyweathersample.OpenForTesting
-import com.weather.willy.willyweathersample.data.EspressoIdlingResource
 import com.weather.willy.willyweathersample.data.ServiceLocator
 import com.weather.willy.willyweathersample.data.repository.CharacterRepository
-import com.weather.willy.willyweathersample.data.wrapEspressoIdlingResource
 import com.weather.willy.willyweathersample.model.CharacterListLoadingError
 import com.weather.willy.willyweathersample.model.local.Character
+import com.weather.willy.willyweathersample.model.local.CharacterWithEpisode
 import kotlinx.coroutines.*
 
 @OpenForTesting
@@ -22,15 +22,25 @@ class CharacterViewModel(
 
     private var mJob: Job? = null
 
-    private val _showProgress: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _showProgress = MutableLiveData(false)
 
     private val _selectedCharacterLiveData: MutableLiveData<Int> = MutableLiveData()
 
+    private val _navigateOnCharacterSelected = MutableLiveData<Boolean>()
+
+    fun navigateOnCharacterSelected(): LiveData<Boolean> = _navigateOnCharacterSelected
+
+
     fun showProgress(): LiveData<Boolean> = _showProgress
 
-    fun selectedCharacterLiveData(): LiveData<Character> = _selectedCharacterLiveData.switchMap {
-        characterRepository.fetchCharacterById(it)
+    fun resetNavigateOnCharacterSelected() {
+        _navigateOnCharacterSelected.postValue(false)
     }
+
+    fun selectedCharacterLiveData(): LiveData<CharacterWithEpisode> =
+        _selectedCharacterLiveData.switchMap {
+            characterRepository.fetchCharacterById(it)
+        }
 
     private val mExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         when (throwable) {
@@ -73,8 +83,10 @@ class CharacterViewModel(
     }
 
     fun onCharacterSelected(character: Character) {
-        if (_selectedCharacterLiveData.value != character.id)
-            _selectedCharacterLiveData.postValue(character.id)
+        if (_selectedCharacterLiveData.value != character.characterId) {
+            _selectedCharacterLiveData.postValue(character.characterId)
+            _navigateOnCharacterSelected.postValue(true)
+        }
     }
 
     private fun showProgress(value: Boolean) {
@@ -95,4 +107,7 @@ class CharacterViewModelFactory(private val mCharacterRepository: CharacterRepos
 }
 
 fun Fragment.provideCharacterViewModelFactory(): ViewModelProvider.Factory = ServiceLocator.mFactory
+    ?: CharacterViewModelFactory(ServiceLocator.provideCharacterRepository())
+
+fun Activity.provideCharacterViewModelFactory(): ViewModelProvider.Factory = ServiceLocator.mFactory
     ?: CharacterViewModelFactory(ServiceLocator.provideCharacterRepository())
