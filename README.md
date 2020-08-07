@@ -35,9 +35,10 @@ internally dependent on:
    1. Network Layer
    2. Local database layer.
 
-
 **Feature layer** is the User Interface layer. The repository layer provides data to the feature layer
 
+**[Service Locator pattern](https://en.wikipedia.org/wiki/Service_locator_pattern)** is used for dependency injection. It is used
+in place of [Dagger](https://dagger.dev/) because testing fragments and activities with dagger is slightly tricky.
 
 ### Libraries
 
@@ -55,3 +56,5 @@ The application uses the following libraries:
 5) [View Model](https://developer.android.com/topic/libraries/architecture/viewmodel) is used to hold the data associated with the UI.
 
 6) [Espresso](https://developer.android.com/training/testing/espresso) is used for UI unit testing
+
+7) [Kotlin coroutines](https://developer.android.com/kotlin/coroutines) are used for threading purposes.
