@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/ivCharacter"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/characterDetailsImgWidth"
             android:layout_height="@dimen/characterDetailsImgHeight"
             android:contentDescription="@string/character_image"
             app:layout_constraintEnd_toEndOf="parent"

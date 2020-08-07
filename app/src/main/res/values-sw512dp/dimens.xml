@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="characterImgHeight">224dp</dimen>
-    <dimen name="characterImgWidth">224dp</dimen>
+    <dimen name="characterImgHeight">240dp</dimen>
+    <dimen name="characterImgWidth">240dp</dimen>
 
+    <dimen name="characterDetailsImgHeight">256dp</dimen>
+    <dimen name="characterDetailsImgWidth">320dp</dimen>
 </resources>

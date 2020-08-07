@@ -59,7 +59,7 @@ class CharacterDetailsFragment : Fragment() {
 
     private fun setup(characterWithEpisode: CharacterWithEpisode) {
         Glide.with(ivCharacter).load(characterWithEpisode.character.image)
-            .centerCrop().error(R.mipmap.ic_launcher_round).into(ivCharacter)
+            .fitCenter().error(R.mipmap.ic_launcher_round).into(ivCharacter)
         showPlaceholderIfTextIsEmpty(
             requireContext(),
             tvName,
