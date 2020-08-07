@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Willy Weather Sample</string>
+    <string name="app_name">Rick And Morty Characters</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="character_list_label">Character List</string>

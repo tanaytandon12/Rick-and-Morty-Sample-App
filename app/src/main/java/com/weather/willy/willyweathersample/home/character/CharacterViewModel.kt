@@ -26,10 +26,13 @@ class CharacterViewModel(
 
     private val _selectedCharacterLiveData: MutableLiveData<Int> = MutableLiveData()
 
+    private val _selectedCharacterNameLiveData: MutableLiveData<String> = MutableLiveData()
+
     private val _navigateOnCharacterSelected = MutableLiveData<Boolean>()
 
     fun navigateOnCharacterSelected(): LiveData<Boolean> = _navigateOnCharacterSelected
 
+    fun selectedCharacterNameLiveData(): LiveData<String> = _selectedCharacterNameLiveData
 
     fun showProgress(): LiveData<Boolean> = _showProgress
 
@@ -84,6 +87,7 @@ class CharacterViewModel(
 
     fun onCharacterSelected(character: Character) {
         if (_selectedCharacterLiveData.value != character.characterId) {
+            _selectedCharacterNameLiveData.postValue(character.name)
             _selectedCharacterLiveData.postValue(character.characterId)
             _navigateOnCharacterSelected.postValue(true)
         }
