@@ -149,9 +149,6 @@ dependencies {
     // extensions
     implementation "android.arch.lifecycle:extensions:$lifecycle_ext_version"
 
-    // pull to refresh
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$pull_to_refresh_version"
-
     // mockito
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexmaker_mockito_version"
 

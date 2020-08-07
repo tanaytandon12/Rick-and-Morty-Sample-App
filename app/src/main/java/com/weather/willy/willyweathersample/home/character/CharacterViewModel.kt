@@ -6,11 +6,13 @@ import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.weather.willy.willyweathersample.OpenForTesting
+import com.weather.willy.willyweathersample.R
 import com.weather.willy.willyweathersample.data.ServiceLocator
 import com.weather.willy.willyweathersample.data.repository.CharacterRepository
 import com.weather.willy.willyweathersample.model.CharacterListLoadingError
 import com.weather.willy.willyweathersample.model.local.Character
 import com.weather.willy.willyweathersample.model.local.CharacterWithEpisode
+import com.weather.willy.willyweathersample.util.InternetConnectivityManager
 import kotlinx.coroutines.*
 
 @OpenForTesting
@@ -26,13 +28,21 @@ class CharacterViewModel(
 
     private val _selectedCharacterLiveData: MutableLiveData<Int> = MutableLiveData()
 
-    private val _selectedCharacterNameLiveData: MutableLiveData<String> = MutableLiveData()
+    private var _selectedCharacterName: String? = null
 
     private val _navigateOnCharacterSelected = MutableLiveData<Boolean>()
 
+    private val _snackbarMessageRes = MutableLiveData(-1)
+
     fun navigateOnCharacterSelected(): LiveData<Boolean> = _navigateOnCharacterSelected
 
-    fun selectedCharacterNameLiveData(): LiveData<String> = _selectedCharacterNameLiveData
+    fun snackbarMessageRes(): LiveData<Int> = _snackbarMessageRes
+
+    fun resetSnackbarMessageRes() {
+        _snackbarMessageRes.postValue(-1)
+    }
+
+    fun selectedCharacterName(): String? = _selectedCharacterName
 
     fun showProgress(): LiveData<Boolean> = _showProgress
 
@@ -76,18 +86,22 @@ class CharacterViewModel(
     }
 
     fun fetchCharacters() {
-        mJob?.cancel()
-        mJob = viewModelScope.launch(defaultDispatcher + mExceptionHandler)
-        {
-            showProgress(true)
-            characterRepository.fetchCharacterList()
-            showProgress(false)
+        if (InternetConnectivityManager.isInternetConnected()) {
+            mJob?.cancel()
+            mJob = viewModelScope.launch(defaultDispatcher + mExceptionHandler)
+            {
+                showProgress(true)
+                characterRepository.fetchCharacterList()
+                showProgress(false)
+            }
+        } else {
+            _snackbarMessageRes.postValue(R.string.no_internet_connection)
         }
     }
 
     fun onCharacterSelected(character: Character) {
         if (_selectedCharacterLiveData.value != character.characterId) {
-            _selectedCharacterNameLiveData.postValue(character.name)
+            _selectedCharacterName = character.name
             _selectedCharacterLiveData.postValue(character.characterId)
             _navigateOnCharacterSelected.postValue(true)
         }

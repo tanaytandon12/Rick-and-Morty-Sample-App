@@ -1,18 +1,19 @@
 package com.weather.willy.willyweathersample.home
 
+import android.app.Activity
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.weather.willy.willyweathersample.R
 import com.weather.willy.willyweathersample.home.character.CharacterViewModel
 import com.weather.willy.willyweathersample.home.character.provideCharacterViewModelFactory
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -32,7 +33,7 @@ class HomeActivity : AppCompatActivity() {
             if (it) {
                 toggleBackButton(
                     true,
-                    mCharacterViewModel.selectedCharacterNameLiveData().value
+                    mCharacterViewModel.selectedCharacterName()
                 )
             }
         })
@@ -56,3 +57,29 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(value)
     }
 }
+
+fun Activity.showIndefiniteSnackbar(
+    messageResId: Int,
+    view: View,
+    @StringRes actionResId: Int,
+    action: () -> Unit
+) =
+    Snackbar.make(view, messageResId, Snackbar.LENGTH_INDEFINITE).apply {
+        setAction(actionResId) {
+            dismiss()
+            action.invoke()
+        }
+    }.show()
+
+fun Fragment.showIndefiniteSnackbar(
+    messageResId: Int,
+    view: View,
+    @StringRes actionResId: Int,
+    action: () -> Unit
+) =
+    Snackbar.make(view, messageResId, Snackbar.LENGTH_INDEFINITE).apply {
+        setAction(actionResId) {
+            dismiss()
+            action.invoke()
+        }
+    }.show()

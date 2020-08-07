@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.weather.willy.willyweathersample.R
 import com.weather.willy.willyweathersample.data.wrapEspressoIdlingResource
+import com.weather.willy.willyweathersample.home.showIndefiniteSnackbar
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_characters.*
 
 /**
@@ -70,5 +72,19 @@ class CharactersFragment : Fragment() {
                 mCharacterAdapter.submitList(it)
             }
         })
+
+        characterViewModel.snackbarMessageRes().observe(viewLifecycleOwner, Observer {
+            if (it != -1) {
+                showIndefiniteSnackbar(
+                    R.string.no_internet_connection,
+                    rvCharacters,
+                    R.string.retry
+                ) {
+                    characterViewModel.fetchCharacters()
+                }
+                characterViewModel.resetSnackbarMessageRes()
+            }
+        })
+
     }
 }
